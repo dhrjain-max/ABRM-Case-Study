@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study — AB Rubber Mills | Dhruv Jain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --ink: #111111;
+    --ink-muted: #6b6b6b;
+    --ink-light: #b0afa9;
+    --accent: #1a3d2b;
+    --accent-light: #e8f0eb;
+    --rule: #d8d6d0;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: clamp(15px, 1.1vw, 17px);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* LAYOUT */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(40px, 8vw, 80px) clamp(24px, 5vw, 48px);
+  }
+
+  /* FADE IN */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* HEADER */
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: clamp(48px, 8vw, 80px);
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .site-header .name {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .site-header .label {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero { margin-bottom: clamp(48px, 8vw, 72px); }
+
+  .case-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .case-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 40px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-muted);
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+
+  .meta-item strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  /* RESULTS BLOCK — leads the page */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: clamp(48px, 8vw, 72px);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .result-cell {
+    background: var(--bg);
+    padding: clamp(20px, 4vw, 32px) clamp(20px, 4vw, 28px);
+  }
+
+  .result-cell.featured {
+    background: var(--accent);
+    color: white;
+  }
+
+  .result-number {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .result-cell.featured .result-number {
+    color: white;
+  }
+
+  .result-label {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  .result-cell.featured .result-label {
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: clamp(40px, 7vw, 64px);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .section-num {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  .section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .section p {
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 300;
+    margin-bottom: 14px;
+    line-height: 1.8;
+  }
+
+  .section p:last-child { margin-bottom: 0; }
+
+  /* FINDINGS LIST */
+  .findings {
+    list-style: none;
+    margin: 16px 0;
+  }
+
+  .findings li {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: #333;
+    line-height: 1.7;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+
+  .findings li:first-child { border-top: 1px solid var(--rule); }
+
+  .findings li::before {
+    content: '—';
+    color: var(--ink-light);
+    flex-shrink: 0;
+    font-weight: 300;
+  }
+
+  /* PHASES */
+  .phases { margin: 20px 0; }
+
+  .phase {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .phase:first-child { border-top: 1px solid var(--rule); }
+
+  .phase-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .phase p {
+    font-size: 0.9rem;
+    color: #444;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 18px 22px;
+    margin: 24px 0;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .callout p {
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 400;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* DIVIDER */
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: clamp(32px, 5vw, 48px) 0;
+  }
+
+  /* CTA */
+  .cta-block {
+    padding: clamp(28px, 5vw, 40px);
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    margin-top: clamp(40px, 7vw, 64px);
+  }
+
+  .cta-block h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+
+  .cta-block p {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .contact-link {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    transition: opacity 0.2s;
+  }
+
+  .contact-link:hover { opacity: 0.65; }
+
+  .contact-sep {
+    color: var(--ink-light);
+    font-size: 0.82rem;
+    line-height: 1;
+    align-self: center;
+  }
+
+  /* FOOTER */
+  .site-footer {
+    margin-top: clamp(40px, 7vw, 64px);
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 0.75rem;
+    color: var(--ink-light);
+    font-weight: 300;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 480px) {
+    .results-grid { grid-template-columns: 1fr 1fr; }
+    .site-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="site-header reveal">
+    <a href="mailto:dhruv_jain2023@pgp.isb.edu" class="name">Dhruv Jain</a>
+    <span class="label">Operations & Growth Consultant</span>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero reveal" style="transition-delay: 0.1s">
+    <div class="case-label">Case Study</div>
+    <h1>AB Rubber Mills —<br><em>from stagnant to scalable</em></h1>
+    <div class="hero-meta">
+      <span class="meta-item"><strong>Industry</strong> Manufacturing</span>
+      <span class="meta-item"><strong>Duration</strong> 16 months</span>
+      <span class="meta-item"><strong>Company age</strong> 40 years</span>
+    </div>
+  </div>
+
+  <!-- RESULTS — leads the page -->
+  <div class="results-grid reveal" style="transition-delay: 0.2s">
+    <div class="result-cell featured">
+      <span class="result-number">60%</span>
+      <span class="result-label">YoY revenue growth</span>
+    </div>
+    <div class="result-cell">
+      <span class="result-number">80%</span>
+      <span class="result-label">EBITDA improvement</span>
+    </div>
+    <div class="result-cell">
+      <span class="result-number">100%</span>
+      <span class="result-label">Q1 2025 above prior year Q1</span>
+    </div>
+    <div class="result-cell">
+      <span class="result-number">5%</span>
+      <span class="result-label">Demand forecast variance, FY25-26</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1: SITUATION -->
+  <div class="section reveal" style="transition-delay: 0.25s">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>The Situation</h2>
+    </div>
+    <p>AB Rubber Mills had been making rubber rolls for rice de-husking for 40 years. For five of those years, revenue grew at 2–3% annually and nobody could explain why it wasn't growing faster.</p>
+    <p>Every decision — pricing, ordering, dispatch, customer management — sat in the CEO's head. One accounting software. Paper files going back decades. No data anyone could actually use. The business worked. But it had no visibility into itself and no capacity to grow.</p>
+  </div>
+
+  <hr>
+
+  <!-- SECTION 2: DIAGNOSIS -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>The Diagnosis</h2>
+    </div>
+    <p>First step: talk to everyone, map every workflow end to end. The data existed — scattered across decades of paper files. An admin staff member spent a month digitizing 20 years of sales, purchase, and GST records. The sales team documented their activity for 30 days.</p>
+    <p>Four root causes emerged:</p>
+    <ul class="findings">
+      <li>Sales bandwidth entirely consumed by existing clients — no capacity for new acquisition</li>
+      <li>Admin time dominated by manual tasks that could be automated: invoicing, transport documentation, GST filing</li>
+      <li>Underpricing on several product lines, with long repayment schedules compressing margins further</li>
+      <li>Demand concentrated in Punjab — seasonal gaps with no buffer and no geographic spread</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- SECTION 3: WHAT WAS BUILT -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>What Was Built</h2>
+    </div>
+    <p>Three phases, built progressively. Each phase had to prove its value before the next began.</p>
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-label">Phase 1 — Custom ERP/CRM</div>
+        <p>Order intake, sales mobile module, production dashboard, management view. Single source of truth for the first time. Built using no-code tools and deployed in weeks.</p>
+      </div>
+      <div class="phase">
+        <div class="phase-label">Phase 2 — Tally + GST Integration</div>
+        <p>Automated invoicing, transport challan, builty generation. Dispatch no longer dependent on one person being in the office. Admin manual workload reduced to 20% of prior volume.</p>
+      </div>
+      <div class="phase">
+        <div class="phase-label">Phase 3 — AI Layer</div>
+        <p>Demand forecasting using 20 years of historical data. AI production scheduling with delay alerts. Automated dispatch documentation. Weekly AI-generated management brief covering production, inventory, sales, financials, and external market signals.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <p>Raw material procurement: AI agents tracking commodity prices and currency signals to time purchases. 10-year historical data used to identify seasonal price patterns. Result: 5–6% raw material cost savings.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- SECTION 4: SALES -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>The Commercial Shift</h2>
+    </div>
+    <p>70–75% of new revenue came from new or dormant customers. The targeting approach: reach customers just before their peak demand cycle using historical data by region and rice varietal processed.</p>
+    <p>New customers were sampled during their off-season — when they had free capacity to run tests and low pressure to commit. Outreach intensified two months before their season, with orders confirmed one month before to give production enough lead time.</p>
+    <p>Pricing corrections and shortened repayment schedules contributed the remaining margin improvement alongside raw material savings and economies of scale.</p>
+  </div>
+
+  <hr>
+
+  <!-- SECTION 5: THE HANDOVER -->
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>The Handover</h2>
+    </div>
+    <p>Everything built is documented and team-owned. The sales team receives weekly AI-generated customer targets. Production runs off the ERP. Management reviews a weekly intelligence brief instead of firefighting daily operations.</p>
+    <p>The business runs without daily management involvement. The CEO now has bandwidth to think about the next phase — including entering the Cambodian market.</p>
+    <p>That was the goal from day one.</p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block reveal">
+    <h3>Running a business that's been flat too long?</h3>
+    <p>Flat revenue is usually a symptom. The underlying problems vary — margins, bandwidth, ops overhead, data blindness. The diagnostic finds the actual root cause.</p>
+    <p>The first engagement is a fixed deliverable — problem identification, opportunity sizing, solution framework, and roadmap. You know what's broken and what it's worth to fix before committing to anything further.</p>
+    <div class="contact-row">
+      <a href="mailto:dhruv_jain2023@pgp.isb.edu" class="contact-link">dhruv_jain2023@pgp.isb.edu</a>
+      <span class="contact-sep">·</span>
+      <a href="tel:+918284084645" class="contact-link">+91 82840 84645</a>
+      <span class="contact-sep">·</span>
+      <a href="https://wa.me/918284084645" class="contact-link">WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer reveal">
+    <p>Dhruv Jain · ISB PGP 2023 · Operations & Growth Consulting</p>
+  </footer>
+
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
